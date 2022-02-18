@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" constent="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <title>Curd Operation Application</title>
+  <!-- <link rel="stylesheet" href="index.css"> -->
+</head>
+
+<body style="margin-top:20px;">
+  <h2 style="text-align: center;">Curd Application Form</h2>
+  <div class="container">
+    <form id="data_form">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Fast Name</label>
+          <input type="text" class="form-control" id="firstname" placeholder="Type your first name">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Last Name</label>
+          <input type="text" class="form-control" id="lastname" placeholder="Type your last name">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="abc245@gmail.com">
+        </div>
+        <div class="form-group col-md-6 ">
+          <label for="inputPassword4">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+
+      </div>
+      <div class="form-row" style="padding-left:7px;padding-right: 6px;">
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">pinCode</label>
+          <input type="number" class="form-control" id="pincode" placeholder="type your pin">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputAddress">Address</label>
+          <input type="text" class="form-control" id="address" placeholder="1234 Main St">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputState">State</label>
+          <select id="state" class="form-control">
+            <option selected>Choose...</option>
+            <option value="1">West Bengal</option>
+            <option value="2">Utar pradesh</option>
+            <option value="3">Gujrat</option>
+          </select>
+        </div>
+      </div>
+      <input type="button" onclick="formSubmit()" value="submit" class="btn btn-primary">
+    </form>
+  </div>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Password</th>
+        <th scope="col">address</th>
+        <th scope="col">State</th>
+        <th scope="col">pinCode</th>
+      </tr>
+    </thead>
+    <tbody id="table_data">
+
+    </tbody>
+  </table>
+  <p id="demo"></p>
+
+  <script>
+    var detailList = [];
+    let updateFormData = {} ;
+
+    var count = 1;
+    function formSubmit() {
+
+
+
+      // -----validation for form filed----------//
+
+
+
+      if (document.getElementById("firstname").value == "") {
+        alert("Please provide your Firstname!");
+        document.getElementById("firstname").focus();
+        return false;
+      }
+      if (document.getElementById("lastname").value == "") {
+        alert("Please provide your Lastname!");
+        document.getElementById("lastname").focus();
+        return false;
+      }
+      if (document.getElementById("email").value == "") {
+        alert("Please provide your Email!");
+        document.getElementById("email").focus();
+        return false;
+      }
+      if (document.getElementById("password").value == "") {
+        alert("Please provide your password!");
+        document.getElementById("password").focus();
+        return false;
+      }
+      if (document.getElementById("address").value == "") {
+        alert("Please provide your address!");
+        document.getElementById("address").focus();
+        return false;
+      }
+      if (document.getElementById("state").value == "") {
+        alert("Please provide your state!");
+        document.getElementById("state").focus();
+        return false;
+      }
+      if (document.getElementById("pincode").value == "") {
+        alert("Please provide your pincode!");
+        document.getElementById("pincode").focus();
+        return false;
+      }
+
+      //  get the values from input field//
+      let firstname = document.getElementById("firstname").value;
+      let lastname = document.getElementById("lastname").value;
+      let name = firstname + " " + lastname;
+      let email = document.getElementById("email").value;
+      let address = document.getElementById("address").value;
+      let password = document.getElementById("password").value;
+      let state = document.getElementById("state").value;
+      let pin = document.getElementById("pincode").value;
+
+      // split name to firstName and last name//
+
+
+
+      let formData = {};
+      formData["name"] = name;
+      formData["email"] = email;
+      formData["address"] = address;
+      formData["password"] = password;
+      formData["state"] = state;
+      formData["pin"] = pin;
+
+
+      detailList.push(formData);
+      console.log(detailList);
+
+      document.getElementById("table_data").innerHTML += `<tr>
+                                                              <td>${count}</td>
+                                                              <td>${name}</td>
+                                                              <td>${email}</td>
+                                                              <td>${password}</td>
+                                                              <td>${address}</td>
+                                                             
+                                                              <td>${state}</td>
+                                                              <td>${pin}</td>
+                                                              <td><input type="submit" value="DELETE" onclick="deleteItems(${count - 1})"</td>
+                                                              <td><input type="submit" value="UPDATE" onclick="updateItems(${count - 1})"</td>
+                                                          </tr>`;
+      document.getElementById("data_form").reset();
+      count++;
+
+
+      // detailList.map((item,id) =>{
+      //   document.getElementById("table_data").innerHTML = `<tr>
+      //                                                         <td>${id}</td>
+      //                                                         <td>${item.name}</td>
+      //                                                         <td>${item.email}</td>
+      //                                                         <td>${item.password}</td>
+      //                                                         <td>${item.address}</td>
+                                                             
+      //                                                         <td>${item.state}</td>
+      //                                                         <td>${item.pin}</td>
+      //                                                         <td><input type="submit" value="DELETE" onclick="deleteItems(${id - 1})"</td>
+      //                                                         <td><input type="submit" value="UPDATE" onclick="updateItems(${id - 1})"</td>
+      //                                                     </tr>`;
+      //                                                     document.getElementById("data_form").reset();
+      // });
+    }
+    function deleteItems(element) {
+      let updateEle = detailList[element];
+      console.log(updateEle)
+    //  let newArray= [];
+     detailList.splice(element, 1)
+    
+    //  detailList = newArray;
+    }
+    function updateItems(element) {
+      let updateEle = detailList[element];
+      console.log(updateEle);
+      console.log(updateEle.name);
+      let newName = updateEle.name;
+      let solitname = newName.split(" ");
+      console.log(solitname);
+      let updateFirstName = solitname[0];
+      let updateLastName = solitname[1];
+      console.log(updateFirstName + updateLastName);
+      document.getElementById("firstname").value = updateFirstName;
+      document.getElementById("lastname").value = updateLastName;
+      document.getElementById("email").value = updateEle.email;
+      document.getElementById("password").value = updateEle.password;
+      document.getElementById("pincode").value = updateEle.pin;
+      document.getElementById("address").value = updateEle.address;
+      document.getElementById("state").value = updateEle.state;
+
+    // updateFormData = {};
+    //     updateFormData["firstname"] = updateFirstName,
+    //     updateFormData["lastname"] = updateLastName,
+    //     updateFormData["lastname"] = updateEle.email,
+    //     updateFormData[""] = updateEle.password,
+    //     updateFormData["pin"] = updateEle.pin,
+    //     updateFormData["address"] = updateEle.address,
+    //     updateFormData["state"] = updateEle.state
+    //   }
+
+    //   console.log("update form data"+updateFormData);
+    }
+
+  </script>
+
+
+</body>
+
+</html>
